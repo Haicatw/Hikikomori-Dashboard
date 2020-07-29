@@ -1,18 +1,23 @@
 <template>
-  <vs-checkbox v-model="item.done" line-through>
-    <vs-alert :color="colorMap[item.priority]">
-      <template #icon>
-        <i :class="'bx ' + item.iconClass"></i>
-      </template>
-      <template #title>
-        {{ item.description }}
-      </template>
-      {{ '締め切り: ' + dueDate }}
-    </vs-alert>
-    <vs-button icon @click="removeTodo()">
+  <div id="todo-item" class="center">
+    <vs-button icon :color="colorMap[item.priority]" @click="toogleTodoState()">
+      <i :class="stateIcon"></i>
+    </vs-button>
+    <div id="alert">
+      <vs-alert :color="colorMap[item.priority]">
+        <template #icon>
+          <i :class="'bx ' + item.iconClass"></i>
+        </template>
+        <template #title>
+          {{ item.description }}
+        </template>
+        {{ dueDate }}
+      </vs-alert>
+    </div>
+    <vs-button icon :color="colorMap[item.priority]" @click="removeTodo()">
       <i class="bx bx-minus-circle"></i>
     </vs-button>
-  </vs-checkbox>
+  </div>
 </template>
 
 <script>
@@ -30,22 +35,42 @@ export default {
       Medium: '#f0d43a',
       Procrastinatable: '#22b2da',
     },
-    done: false,
   }),
   computed: {
     dueDate() {
       // return new Date(this.item.dueDate).toLocaleDateString()
       // console.log(this.item)
-      return this.item.dueDate
+      if (this.item.dueDate === '') {
+        return 'No due date'
+      }
+      return 'Due by: ' + this.item.dueDate
     },
-  },
-  mounted() {
-    this.done = this.item.done
+    stateIcon() {
+      if (this.item.done) {
+        return 'bx bx-checkbox-checked'
+      }
+      return 'bx bx-checkbox'
+    },
   },
   methods: {
     removeTodo() {
       this.$store.commit('removeTodo', this.item)
     },
+    toogleTodoState() {
+      this.$store.commit('toggleTodo', this.item)
+    },
   },
 }
 </script>
+
+<style scoped>
+#todo-item {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+#alert {
+  min-width: 85%;
+}
+</style>

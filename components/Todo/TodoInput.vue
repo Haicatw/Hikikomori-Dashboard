@@ -1,20 +1,58 @@
 <template>
-  <div class="center content-inputs container card">
-    <IconSelector @ChangeInputIcon="setTodoIcon" />
+  <div class="content-inputs container card">
+    <IconSelector
+      :icon-color="getColorByPriority()"
+      @ChangeInputIcon="setTodoIcon"
+    />
     <vs-input
       v-model="todoInputVal.description"
-      color="getColorByPriority()"
+      label="Description"
+      :icon-color="getColorByPriority()"
       shadow
-      placeholder="何をするか？"
-      class="general-padding"
     >
+      <template #icon>
+        <i class="bx bx-add-to-queue"></i>
+      </template>
+      <template #message-danger>
+        Required
+      </template>
     </vs-input>
+    <vs-select v-model="todoInputVal.priority" label="Priority">
+      <vs-option
+        v-for="priorityLevel in priorityLevels"
+        :key="priorityLevel"
+        :label="priorityLevel"
+        :value="priorityLevel"
+      >
+        {{ priorityLevel }}
+      </vs-option>
+    </vs-select>
     <vs-input
       v-model="todoInputVal.dueDate"
+      :color="getColorByPriority()"
+      shadow
       type="date"
-      placeholder="締め切り"
-    />
-    <vs-button icon @click="addTodo()">
+      label="Due date"
+    >
+      <template #icon>
+        <i class="bx bx-time"></i>
+      </template>
+    </vs-input>
+    <vs-button
+      v-if="validTodo"
+      icon
+      :color="getColorByPriority()"
+      @click="addTodo()"
+    >
+      <i class="bx bx-plus-circle"></i>
+    </vs-button>
+    <vs-button
+      v-else
+      icon
+      disabled
+      :color="getColorByPriority()"
+      @click="addTodo()"
+    >
       <i class="bx bx-plus-circle"></i>
     </vs-button>
   </div>
@@ -33,15 +71,20 @@ export default {
       Procrastinatable: '#22b2da',
     },
     todoInputVal: {
-      iconClass: '',
+      iconClass: 'bx-file',
       priority: 'Urgent',
       description: '',
       dueDate: '',
     },
+    priorityLevels: ['Urgent', 'Medium', 'Procrastinatable'],
   }),
-  // mounted() {
-  //   this.todoInputVal.dueDate = new Date()
-  // },
+  computed: {
+    validTodo() {
+      return (
+        this.todoInputVal.description !== '' || this.todoInputVal.dueDate !== ''
+      )
+    },
+  },
   methods: {
     getColorByPriority() {
       return this.colorMap[this.todoInputVal.priority]
@@ -52,7 +95,7 @@ export default {
     addTodo() {
       this.$store.commit('addTodo', this.todoInputVal)
       this.todoInputVal = {
-        iconClass: '',
+        iconClass: 'bx-file',
         priority: 'Urgent',
         description: '',
         dueDate: '',
@@ -67,4 +110,7 @@ export default {
   display: flex;
   flex-direction: row;
 }
+/* .content-inputs {
+  margin-top: 10px;
+} */
 </style>

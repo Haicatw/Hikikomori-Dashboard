@@ -24,7 +24,7 @@ export default {
   border-bottom: 0 solid rgba(0, 0, 0, 0.03);
   /* background: var(--vs-gray-4); */
   /* position: relative; */
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: all 0.25s ease;
   height: auto;
   width: 100%;
@@ -32,5 +32,13 @@ export default {
 }
 .general-padding {
   border: 10px;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  flex-wrap: wrap;
 }
 </style>

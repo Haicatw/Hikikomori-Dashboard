@@ -1,19 +1,23 @@
 <template>
   <div class="container">
     <h2>
-      <b>新しい任務</b>
+      <b>Add New Todo (*° ∀°)</b>
     </h2>
-    <TodoInput class="general-padding" />
+    <TodoInput />
     <h2>
-      <b>頑張って</b>
+      <b>Todo List (｡・`ω´･)</b>
     </h2>
-    <div>
-      <TodoItem
-        v-for="(item, index) in items"
-        :key="index"
-        :item="item"
-        class="general-padding"
-      />
+    <div class="blocks">
+      <TodoItem v-for="(item, index) in items" :key="index" :item="item" />
+    </div>
+    <div v-if="items.length === 0" class="blocks">
+      <vs-alert>
+        <template #title>
+          Congratulations!
+        </template>
+        There are no todos left!
+        <b>_(:з」∠)_</b>
+      </vs-alert>
     </div>
   </div>
 </template>
@@ -37,5 +41,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+.blocks {
+  width: 100%;
 }
 </style>

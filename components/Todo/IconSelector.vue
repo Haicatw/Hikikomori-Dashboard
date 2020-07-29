@@ -5,12 +5,13 @@
     </vs-button>
     <vs-dialog v-model="active" blur class="con-form flex">
       <template #header>
-        <h4>どれにするか？</h4>
+        <h4>Choose your type</h4>
       </template>
-      <div class="icons-selections">
+      <div class="icons-selections center">
         <vs-button
           v-for="iconClass in icons"
           :key="iconClass"
+          :color="iconColor"
           icon
           @click="setInputIcon(iconClass)"
         >
@@ -39,6 +40,9 @@ export default {
       'bx-gift',
       'bx-file',
       'bx-cart-alt',
+      'bx-code',
+      'bx-calendar',
+      'bx-message',
     ],
     selected: 'bx-file',
   }),
@@ -80,9 +84,9 @@ export default {
 .con-form .vs-input-content .vs-input {
   width: 100%;
 }
-.icons-selections {
+/* .icons-selections {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-}
+} */
 </style>
