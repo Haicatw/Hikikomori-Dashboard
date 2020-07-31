@@ -8,7 +8,12 @@
         <template #icon>
           <i :class="'bx ' + item.iconClass"></i>
         </template>
-        <template #title>
+        <template v-if="item.done" #title>
+          <strike>
+            {{ item.description }}
+          </strike>
+        </template>
+        <template v-else #title>
           {{ item.description }}
         </template>
         {{ dueDate }}
